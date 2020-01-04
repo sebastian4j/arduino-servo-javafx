@@ -12,7 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Region;
-import jssc.SerialPortException;
+
 
 public class PuenteControlador {
   private static final Logger LOGGER = Logger.getLogger(PuenteControlador.class.getName());
@@ -21,7 +21,8 @@ public class PuenteControlador {
   void bajar(ActionEvent event) {
     try {
       ConectorServo.instance().bajarPuente();
-    } catch (SerialPortException e) {
+    } catch (Exception e) {
+        e.printStackTrace();
       mostrarError(e);
     }
   }
@@ -29,8 +30,9 @@ public class PuenteControlador {
   @FXML
   void subir(ActionEvent event) {
     try {
-      ConectorServo.instance().subirPuente();
-    } catch (SerialPortException e) {
+      ConectorServo.instance().subirPuente();      
+    } catch (Exception e) {
+        e.printStackTrace();
       mostrarError(e);
     }
   }

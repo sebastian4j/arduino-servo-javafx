@@ -1,5 +1,5 @@
 module com.sebastian.arduino.puente {
-    requires jssc;
+    requires com.fazecast.jSerialComm;
     requires java.logging;
     requires javafx.fxml;
     requires javafx.controls;

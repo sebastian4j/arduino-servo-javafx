@@ -1,7 +1,7 @@
 package com.sebastian.arduino.puente;
 
-import jssc.SerialPort;
-import jssc.SerialPortException;
+import com.fazecast.jSerialComm.SerialPort;
+import java.io.IOException;
 
 /**
  * realiza las operaciones de conexión con el servo a través del arduino.
@@ -15,7 +15,7 @@ public final class ConectorServo {
   
   private static ConectorServo cs;
   
-  public static synchronized ConectorServo instance() throws SerialPortException {
+  public static synchronized ConectorServo instance() {
       if (cs == null) {
           cs = new ConectorServo();
       }
@@ -23,31 +23,29 @@ public final class ConectorServo {
       return cs;
   }
 
-  private static void iniciar() throws SerialPortException {
+  private static void iniciar() {
     if (!iniciado) {
       iniciado = true;
-      SP = new SerialPort("/dev/ttyACM0");
+      SP = SerialPort.getCommPort("/dev/ttyACM0");
+      SP.setComPortParameters(9600, 8, 1, 0); 
+      SP.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0);
       SP.openPort();
-      SP.setParams(
-          SerialPort.BAUDRATE_9600,
-          SerialPort.DATABITS_8,
-          SerialPort.STOPBITS_1,
-          SerialPort.PARITY_NONE);
-      SP.purgePort(SerialPort.PURGE_TXCLEAR | SerialPort.PURGE_RXCLEAR);
     }
   }
 
   private ConectorServo() {}
+  
 
-  public void subirPuente() throws SerialPortException {
-    SP.writeInt(1);
+  public void subirPuente() throws IOException {
+    SP.getOutputStream().write(1);
   }
 
-  public void bajarPuente() throws SerialPortException {
-    SP.writeInt(2);
+  public void bajarPuente() throws IOException {
+    SP.getOutputStream().write(2);
   }
 
-  public void cerrar() throws SerialPortException {
+  public void cerrar() {
     SP.closePort();
   }
+
 }

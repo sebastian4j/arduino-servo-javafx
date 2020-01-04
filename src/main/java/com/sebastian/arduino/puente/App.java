@@ -10,7 +10,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import jssc.SerialPortException;
 
 /**
  * sudo mvn clean package exec:java
@@ -26,9 +25,10 @@ public class App extends Application {
 
   @Override
   public void stop() {
+      
     try {
       ConectorServo.instance().cerrar();
-    } catch (SerialPortException e) {
+    } catch (Exception e) {
         LOGGER.log(Level.SEVERE, e.getMessage(), e);
     }
     Platform.exit();
