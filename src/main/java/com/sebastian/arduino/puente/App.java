@@ -37,15 +37,17 @@ public class App extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("panel.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("flechas.fxml"));
     loader.setResources(ResourceBundle.getBundle("textos"));
     primaryStage.setTitle("Control Puente");
     final Scene scene = new Scene(loader.load());
     primaryStage.setScene(scene);
+    primaryStage.setFullScreen(true);
     primaryStage.show();
   }
 
   public static void main(String[] args) {    
+      new Thread(new GamepadController()).start();
     launch(args);
   }  
 }
